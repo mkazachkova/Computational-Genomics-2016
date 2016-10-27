@@ -16,7 +16,7 @@ For our input data we need a data set of RNA-seq reads (or, preferably, multiple
 ### Milestones we want to accomplish: 
 Here are three milestones we plan on accomplishing during the duration of this project: 
 
-1. Creating our own database/list of common contaminants. We will search through our data sets of sequencing reads to look for the presence of any of the contaminants in our database, thus this set of contaminants needs to be comprehensive (we will need to do research in order to compile this database) [2].
+1. Creating our own database/file of common contaminants. We will search parse through a large number of diverse RNA-seq experiment runs to look for parts of genomes of contaminant species, and see if these genome substrings are repeated. That way we can measure the relative frequency of contaminant sequences, per contaminant genome. We will choose the contaminant genomes ourselves based on already done research (ex: Mycoplasma genomes would be included, because they are accepted as a common contaminant) [2].
 
 2. Creating a working algorithm (not necessarily the most efficient) that is successfully able to detect the presence of any of the contaminants from our database of contaminants within the data set of sequence reads being tested [3].
 
@@ -28,6 +28,7 @@ Here are three milestones we plan on accomplishing during the duration of this p
 
 2. Gather data sets of sequence reads from multiple Hopkins labs and run our algroithm on them to discover if any/which contaminants are present. We could then compile some sort of chart or other visual representation of which contaminants are most common in Hopkins labs and/or which contaminants are most common in each lab.
 
+3. Have the algorithm "check" itself so that rather than a binary answer of whether the contaminant is present or not, it could be more of a weighted probability function based on phred scores, hamming/edit distance, as well as clustering contaminant genome parts that appear frequently into "bins" that represent a genome interval from which many contaminant sequences come from.
 
 ## References to Papers: 
 [1] Brad Solomon and Carleton Kingsford. Large-scale search of transcriptomic read sets with sequence bloom trees. *bioRxiv*, page 017087, 2015.
