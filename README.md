@@ -5,7 +5,7 @@ Kiki Chang, Jeana Yee, Mariya Kazachkova, Kevin Jza Joo
 ## Research Goals:
 
 ### Method we want to develop:
-We are looking to create a method to detect contamination in data sets of sequencing reads. 
+We are looking to create a method to detect contamination in data sets of sequencing reads. The method would preprocess the datasets of sequencing reads as well as the dataset of contaminants to maximize time and space efficiency, using data structures such as the Bloom Filter Tree [1]. 
 
 ### How to evaluate method:
 We believe that the easiest way to evaluate our method is to start by running our algorithm with data sets of sequencing reads that are known to contain certain contaminants and making sure that we are getting the correct results (so the correct contaminants are being identified). Once this is working without any errors, we can move on to looking at data sets where the status of contamination is unknown.  
@@ -23,6 +23,8 @@ Here are three milestones we plan on accomplishing during the duration of this p
 
 
 ## References to Papers: 
+[1] Brad Solomon and Carleton Kingsford. Large-scale search of transcriptomic read sets with sequence bloom trees. *bioRxiv*, page 017087, 2015.
+
 
 
 
