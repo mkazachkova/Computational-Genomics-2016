@@ -24,6 +24,10 @@ Here are three milestones we plan on accomplishing during the duration of this p
 
 ### Stretch Goals:
 
+1. Implement code to automatically pull multiple data sets of sequence reads off of a selected website (this would prevent us from having to manually download the data sets and run the algorithm on them)
+
+2. Gather data sets of sequence reads from multiple Hopkins labs and run our algroithm on them to discover if any/which contaminants are present. We could then compile some sort of chart or other visual representation of which contaminants are most common in Hopkins labs and/or which contaminants are most common in each lab.
+
 
 ## References to Papers: 
 [1] Brad Solomon and Carleton Kingsford. Large-scale search of transcriptomic read sets with sequence bloom trees. *bioRxiv*, page 017087, 2015.
