@@ -11,12 +11,12 @@ We are looking to create a method to detect contamination in data sets of sequen
 We believe that the easiest way to evaluate our method is to start by running our algorithm with data sets of sequencing reads that are known to contain certain contaminants and making sure that we are getting the correct results (so the correct contaminants are being identified). Once this is working without any errors, we can move on to looking at data sets where the status of contamination is unknown.  
 
 ### Input data needed: 
-For our input data we need a data set of sequencing reads (or, preferably, multiple data sets of sequencing reads from multiple experiments). We could find these data sets online, and these data sets would likely have a description of what contaminants are present in them (this would allow us to check if our algorithm is working properly, as stated in the "how to evaluate method" section). However, ultimately we think that it would be interesting to get data sets of sequencing reads from a lab here at Hopkins and run our algorithm with that data (as this is a recent idea we had we are unsure of how feasible it would be).  
+For our input data we need a data set of RNA-seq reads (or, preferably, multiple data sets of sequencing reads from multiple experiments). We could find these data sets online, and see if reads map to genomes of contaminants, and then put the mapped reads into BLAST [4] (this would allow us to check if our algorithm is working properly, as stated in the "how to evaluate method" section). Thus it follows we would also need to pull genomes of contaminants from online, most likely from NCBI. Ultimately, we think that it would be interesting to get data sets of sequencing reads from a lab here at Hopkins and run our algorithm with that data (as this is a recent idea we had we are unsure of how feasible it would be).  
 
 ### Milestones we want to accomplish: 
 Here are three milestones we plan on accomplishing during the duration of this project: 
 
-1. Creating our own database/list of common contaminants. We will search through our data sets of sequencing reads to look for the presense of any of the contaminants in our database, thus this set of contaminants needs to be comprehensive (we will need to do research in order to compile this database) [2].
+1. Creating our own database/list of common contaminants. We will search through our data sets of sequencing reads to look for the presence of any of the contaminants in our database, thus this set of contaminants needs to be comprehensive (we will need to do research in order to compile this database) [2].
 
 2. Creating a working algorithm (not necessarily the most efficient) that is successfully able to detect the presence of any of the contaminants from our database of contaminants within the data set of sequence reads being tested [3].
 
@@ -36,5 +36,6 @@ Here are three milestones we plan on accomplishing during the duration of this p
 
 [3] Schmieder, Robert, and Robert Edwards. “Fast Identification and Removal of Sequence Contamination from Genomic and Metagenomic Datasets.” Ed. Francisco Rodriguez-Valera. PLoS ONE 6.3 (2011): e17288. PMC. Web. 27 Oct. 2016.
 
+[4] Anthony O Olarerin-George and John B Hogenesch. Assessing the prevalence of mycoplasma contamination in cell culture via a survey of ncbi’s rna-seq archive. Nucleic acids research, 43(5):2535–2542, 2015. 
 
 
