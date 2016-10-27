@@ -1,6 +1,6 @@
 # Project Proposal - Computational Genomics 
 ## Team members: 
-Kiki Chang, Jeana Yee, Mariya Kazachkova, Kevin Jza Joo 
+Kiki Chang, Jeana Yee, Mariya Kazachkova, Min Geol Joo 
 
 ## Research Goals:
 
