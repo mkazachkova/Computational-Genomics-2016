@@ -16,7 +16,7 @@ For our input data we need a data set of sequencing reads (or, preferably, multi
 ### Milestones we want to accomplish: 
 Here are three milestones we plan on accomplishing during the duration of this project: 
 
-1. Creating our own database/list of common contaminants. We will search through our data sets of sequencing reads to look for the presense of any of the contaminants in our database, thus this set of contaminants needs to be comprehensive (we will need to do research in order to compile this database) [2].
+1. Creating our own database/list of common contaminants. We will search through our data sets of sequencing reads to look for the presense of any of the contaminants in our database, thus this set of contaminants needs to be comprehensive (we will need to do research in order to compile this database) [2][3].
 
 2. Creating a working algorithm (not necessarily the most efficient) that is successfully able to detect the presence of any of the contaminants from our database of contaminants within the data set of sequence reads being tested.
 
@@ -32,8 +32,9 @@ Here are three milestones we plan on accomplishing during the duration of this p
 ## References to Papers: 
 [1] Brad Solomon and Carleton Kingsford. Large-scale search of transcriptomic read sets with sequence bloom trees. *bioRxiv*, page 017087, 2015.
 
-[2] William B Langdon. Mycoplasma contamination in the 1000 genomes project. BioData Min- ing, 7(1):1, 2014.
+[2] William B Langdon. Mycoplasma contamination in the 1000 genomes project. BioData Min- ing, 7(1):1, 2014.  
 
+[3] Anthony O Olarerin-George and John B Hogenesch. Assessing the prevalence of mycoplasma contamination in cell culture via a survey of ncbi’s rna-seq archive. Nucleic acids research, 43(5):2535–2542, 2015.
 
 
 
