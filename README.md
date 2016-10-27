@@ -15,7 +15,9 @@ For our input data we need a data set of sequencing reads (or, preferably, multi
 
 ### Milestones we want to accomplish: 
 Here are three milestones we plan on accomplishing during the duration of this project: 
-* 1.) Creating our own database/list of common contaminants. This database/list will be used  
+* 1.) Creating our own database/list of common contaminants. We will search through our data sets of sequencing reads to look for the presense of any of the contaminants in our database, thus this set of contaminants needs to be comprehensive (we will need to do research in order to compile this database).
+
+* 2.)  
 
 ### Stretch Goals:
 
