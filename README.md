@@ -5,7 +5,7 @@ Kiki Chang, Jeana Yee, Mariya Kazachkova, Kevin Jza Joo
 ## Research Goals:
 
 ### Method we want to develop:
-We are looking to create a method to detect contamination in data sets of sequencing reads. The method would preprocess the datasets of sequencing reads as well as the dataset of contaminants to maximize time and space efficiency, using data structures such as the Bloom Filter Tree [1]. 
+We are looking to create a method to detect contamination in data sets of sequencing reads. The method would preprocess the datasets of sequencing reads as well as the dataset of contaminants to maximize time and space efficiency, using data structures such as the Bloom Filter Tree [1]. We will be using either Python or C to implement our algorithm.  
 
 ### How to evaluate method:
 We believe that the easiest way to evaluate our method is to start by running our algorithm with data sets of sequencing reads that are known to contain certain contaminants and making sure that we are getting the correct results (so the correct contaminants are being identified). Once this is working without any errors, we can move on to looking at data sets where the status of contamination is unknown.  
@@ -18,9 +18,9 @@ Here are three milestones we plan on accomplishing during the duration of this p
 
 1. Creating our own database/list of common contaminants. We will search through our data sets of sequencing reads to look for the presense of any of the contaminants in our database, thus this set of contaminants needs to be comprehensive (we will need to do research in order to compile this database).
 
-2. Milestone 2
+2. Creating a working algorithm (not necessarily the most efficient) that is successfully able to detect the presence of any of the contaminants from our database of contaminants within the data set of sequence reads being tested.
 
-3. Milestone 3
+3. Optimize the algorithm from milestone 2 to use less space and/or have a lower time complexity.
 
 ### Stretch Goals:
 
