@@ -3,7 +3,7 @@ class FmCheckpoints(object):
     ''' Manages rank checkpoints and handles rank queries, which are
         O(1) time, with the checkpoints taking O(m) space, where m is
         length of text. '''
-    
+
     def __init__(self, bw, cpIval=4):
         ''' Scan BWT, creating periodic checkpoints as we go '''
         self.cps = {}        # checkpoints
@@ -21,7 +21,7 @@ class FmCheckpoints(object):
             if (i % cpIval) == 0:
                 for c in tally.iterkeys():
                     self.cps[c].append(tally[c])
-    
+
     def rank(self, bw, c, row):
         ''' Return # c's there are in bw up to and including row '''
         if row < 0 or c not in self.cps:
