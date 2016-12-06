@@ -1,0 +1,2 @@
+>Name of test read (approximate) (mismatch on 2nd to last T)
+CGGTCTCGCCCAATACAATC
