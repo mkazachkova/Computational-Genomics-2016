@@ -126,6 +126,15 @@ def testRev(text, tLen):
     revMatches = sorted(fm.occurrencesReverse(p, tLen))
     return revMatches
 
+def revertIndexes(list_of_indexes, strlen, lenP):
+    """
+    To be used on the return of occurences mathod
+    """
+    new_list = []
+    for each in list_of_indexes:
+        new_list.append(((each + (lenP-1)) - (strlen -1)) * -1)
+    return new_list
+
 def main():
     f = open("genometest.txt", "r")
     t = f.read()
@@ -157,6 +166,21 @@ def main():
     print "Range 'baaba' =", fmF.range('baaba')
 
     print "Offsets of matches in test2() =", testRev(tRev, tLen)
+
+    #Test revertIndexes
+    print "printing occurrences for next tests"
+    print fmB.occurrences("a")
+    reversed_occurrences = fmF.occurrences("a")
+    print reversed_occurrences
+    returned_list = revertIndexes(reversed_occurrences, len(t), len("a"))
+    for each in returned_list:
+        print each
+
+    print fmB.occurrences("ac")
+    print fmF.occurrences("ca") #must reverse string to use forward facing? Is this correct?
+    print revertIndexes(fmF.occurrences("ca"), len(t), len("ca"))
+
+    
 
 if __name__ == "__main__":
     main()
