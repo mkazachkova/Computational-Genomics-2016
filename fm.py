@@ -98,31 +98,65 @@ class FmIndex():
         l, r = self.range(p)
         return [ self.resolve(x) for x in xrange(l, r) ]
 
-def test2():
-    p, t = "CAT", "TTGTGTGCATGTTGTTTCATCATTTAGAGATACATTGCGCTGCATCATGGTCA"
+    def occurrencesReverse(self, p, tLen):
+        ''' Return offsets for all occurrences of p, in no particular order '''
+        l, r = self.range(p)
+        revMatches = [ self.resolve(x) for x in xrange(l, r) ]
+        count = 0
+        for i in revMatches:
+            i = tLen - 1 - i
+            revMatches[count] = i
+            count += 1
+        return revMatches
+
+def test(text):
+    p, t = "ba", text
     #              01234567890123456789012345678901234567890123456789012
     # Occurrences:        *         *  *           *         *  *
     fm = FmIndex(t)
     matches = sorted(fm.occurrences(p))
-    matches == [7, 17, 20, 32, 42, 45]
+    #matches == [7, 17, 20, 32, 42, 45]
     return matches
+
+def testRev(text, tLen):
+    p, t = "ba", text
+    #              01234567890123456789012345678901234567890123456789012
+    # Occurrences:        *         *  *           *         *  *
+    fm = FmIndex(t)
+    revMatches = sorted(fm.occurrencesReverse(p, tLen))
+    return revMatches
 
 def main():
     f = open("genometest.txt", "r")
     t = f.read()
+    tRev = "".join(reversed(t))
+    tLen = len(t)
     print "T =", t
 
-    fm = FmIndex(t)
+    fmB = FmIndex(t)
+    fmF = FmIndex(tRev)
 
-    print "Suffix Array =", fm.ssa
-    print "BWT =", fm.bwt, "  dollarRow = ", fm.dollarRow
-    print "Checkpoints =", fm.cps.cps
-    print "Concise first column", fm.first
+    print "Suffix Array =", fmB.ssa
+    print "BWT =", fmB.bwt, "  dollarRow = ", fmB.dollarRow
+    print "Checkpoints =", fmB.cps.cps
+    print "Concise first column", fmB.first
 
-    print "Range 'a' =", fm.range('a')
-    print "Range 'baaba' =", fm.range('baaba')
+    print "Range 'a' =", fmB.range('a')
+    print "Range 'baaba' =", fmB.range('baaba')
 
-    print "Offsets of matches in test2() =", test2()
+    print "Offsets of matches in test2() =", test(t)
+
+    print " "
+
+    print "Suffix Array =", fmF.ssa
+    print "BWT =", fmF.bwt, "  dollarRow = ", fmF.dollarRow
+    print "Checkpoints =", fmF.cps.cps
+    print "Concise first column", fmF.first
+
+    print "Range 'a' =", fmF.range('a')
+    print "Range 'baaba' =", fmF.range('baaba')
+
+    print "Offsets of matches in test2() =", testRev(tRev, tLen)
 
 if __name__ == "__main__":
     main()
