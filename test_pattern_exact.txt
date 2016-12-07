@@ -1,2 +1,1 @@
->Name of test read (exact)
-CGGTCTCGCCCAAAACAATC
+TATCTGCATCAACAT
