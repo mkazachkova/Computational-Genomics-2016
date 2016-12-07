@@ -118,7 +118,7 @@ def test(text):
     #matches == [7, 17, 20, 32, 42, 45]
     return matches
 
-def testRev(text, tLen):
+def testRev(text, tLen):  #reverse the input strings (for forward-facing T)
     p, t = "ba", text
     #              01234567890123456789012345678901234567890123456789012
     # Occurrences:        *         *  *           *         *  *
@@ -177,7 +177,7 @@ def main():
         print each
 
     print fmB.occurrences("ac")
-    print fmF.occurrences("ca") #must reverse string to use forward facing? Is this correct?
+    print fmF.occurrences("ca") #must reverse string to use forward facing? Is this correct???
     print revertIndexes(fmF.occurrences("ca"), len(t), len("ca"))
 
     
