@@ -6,7 +6,7 @@ start_time = time.time()
 t = ""
 fmB = None
 
-def oneMismatch(p):
+def oneMismatch(p, mismatches_allowed):
 	global t
 	global fmB
 	#occurrs = fmB.occurrences(p)
@@ -24,7 +24,7 @@ def oneMismatch(p):
 			start = index - len(first)
 			if (start >= 0):
 				#run boyer-more/naive starting at start and matching w/ up to one mismatch for first 
-				bool_t, list_t = naive(start,first)	
+				bool_t, list_t = naive(start,first, mismatches_allowed)	
 				if bool_t:
 					matches.append(start) #means there is a match or approximate match here; add to list
 
@@ -32,13 +32,13 @@ def oneMismatch(p):
 		for index in first_exact_matches:
 			start = index + len(first) 
 			if (start + len(second)) <= (len(t)-1):
-				bool_t, list_t = naive(start,second)
+				bool_t, list_t = naive(start,second, mismatches_allowed)
 				if bool_t:
 					matches.append(index)
 	print matches
 	return list(set(matches))
 
-def twoMismatch(p):
+def twoMismatch(p, mismatches_allowed):
 	global t
 	global fmB
 
@@ -64,8 +64,8 @@ def twoMismatch(p):
 		if each + len(p) < len(t):
 			start_for_second = each + len(first)
 			start_for_third = start_for_second + len(second)
-			added1, mismatches1 = naive(start_for_second, second)
-			added2, mismatches2 = naive(start_for_third, third)
+			added1, mismatches1 = naive(start_for_second, second, mismatches_allowed)
+			added2, mismatches2 = naive(start_for_third, third, mismatches_allowed)
 			if added1 and added2:
 				if mismatches1 + mismatches2 < 3:
 					matches.append(each)
@@ -74,8 +74,8 @@ def twoMismatch(p):
 		if (index - len(first)) >= 0 and (index + len(second) + len(first)) < len(t):
 			start_for_first = index - len(first)
 			start_for_third = index + len(second)
-			added1, mismatches1 = naive(start_for_first, first)
-			added2, mismatches2 = naive(start_for_third, third)
+			added1, mismatches1 = naive(start_for_first, first, mismatches_allowed)
+			added2, mismatches2 = naive(start_for_third, third, mismatches_allowed)
 			if added1 and added2:
 				if mismatches1 + mismatches2 < 3:
 					matches.append(start_for_first)
@@ -84,8 +84,8 @@ def twoMismatch(p):
 		if (index - len(second) - len(first)) >= 0 and (index + len(third) < len(t)):
 			start_for_first = index - len(second) - len(first)
 			start_for_second = index - len(second)
-			added1, mismatches1 = naive(start_for_first, first)
-			added2, mismatches2 = naive(start_for_second, second)
+			added1, mismatches1 = naive(start_for_first, first, mismatches_allowed)
+			added2, mismatches2 = naive(start_for_second, second, mismatches_allowed)
 			if added1 and added2:
 				if mismatches1 + mismatches2 < 3:
 					matches.append(start_for_first)
@@ -94,7 +94,7 @@ def twoMismatch(p):
 	#print matches
 	return list(set(matches))
 
-def naive(start, compared): 
+def naive(start, compared, num_mismatch_allowed): 
 	"""can be changed to boyer more (code available from piazza), but was thinking that since we 
 	run through so many p's might not be worth it to preprocess? could also do both and see if one is faster?"""
 	mismatches = 0
@@ -102,7 +102,7 @@ def naive(start, compared):
 	for i in range(len(compared)):
 		if t[start] != compared[i]:
 			mismatches+=1
-		if mismatches > 2:  #1
+		if mismatches > num_mismatch_allowed:  #1
 			return False, mismatches
 		start+=1
 	return True, mismatches
@@ -119,7 +119,7 @@ p = a.read()
 #print matches 
 
 
-listT = twoMismatch(p)
+listT = twoMismatch(p, 2)
 
 print("--- %s seconds ---" % (time.time() - start_time))
 #print listT
