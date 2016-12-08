@@ -48,6 +48,8 @@ def twoMismatch(p):
 	first = p[:len(p)/3]
 	second = p[len(p)/3:len(p)/3 + len(p)/3]
 
+	print "p is"
+	print p
 	print first
 	print second
 	print third
@@ -88,6 +90,7 @@ def twoMismatch(p):
 
 
 	print matches
+	print "hello"
 	return list(set(matches))
 
 def naive(start, compared): 
@@ -98,7 +101,7 @@ def naive(start, compared):
 	for i in range(len(compared)):
 		if t[start] != compared[i]:
 			mismatches+=1
-		if mismatches > 1:
+		if mismatches > 2:  #1
 			return False, mismatches
 		start+=1
 	return True, mismatches
@@ -116,6 +119,10 @@ p = a.read()
 
 
 listT = twoMismatch(p)
+
+print p
+print t[36231:36246]
+
 #print listT
-for each in listT:
-	print t[each:each+len(p)]
+#for each in listT:
+#	print t[each:each+len(p)]
