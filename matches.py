@@ -1,5 +1,7 @@
 import sys
 from fm import FmIndex
+import time
+start_time = time.time()
 
 t = ""
 fmB = None
@@ -48,11 +50,11 @@ def twoMismatch(p):
 	first = p[:len(p)/3]
 	second = p[len(p)/3:len(p)/3 + len(p)/3]
 
-	print "p is"
-	print p
-	print first
-	print second
-	print third
+	#print "p is"
+	#print p
+	#print first
+	#print second
+	#print third
 
 	first_exact_matches = fmB.occurrences(first)
 	second_exact_matches = fmB.occurrences(second)
@@ -89,8 +91,7 @@ def twoMismatch(p):
 					matches.append(start_for_first)
 
 
-	print matches
-	print "hello"
+	#print matches
 	return list(set(matches))
 
 def naive(start, compared): 
@@ -120,9 +121,7 @@ p = a.read()
 
 listT = twoMismatch(p)
 
-print p
-print t[36231:36246]
-
+print("--- %s seconds ---" % (time.time() - start_time))
 #print listT
-#for each in listT:
-#	print t[each:each+len(p)]
+for each in listT:
+	print t[each:each+len(p)]
