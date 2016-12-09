@@ -60,16 +60,15 @@ def main():
     #load the fm index
     for genomeName in genomeSequences:
         fmB[genomeName] = FmIndex(genomeSequences[genomeName])
-
-        print 'fmB has:' + str(len(fmB))
         matchesByGenome[genomeName] = Matches(fmB[genomeName], genomeSequences[genomeName])
     print 'before eachGenome in fmB'
     for eachGenome in fmB:
             occurencesIndex[eachGenome] = {}
             for eachRead in reads:
-                exact = matchesByGenome[eachGenome].exactMatch(reads[eachRead])
-                oneMiss = matchesByGenome[eachGenome].oneMismatch(reads[eachRead])
-                twoMiss = matchesByGenome[eachGenome].twoMismatch(reads[eachRead])
+                print reads[eachRead][0]
+                exact = matchesByGenome[eachGenome].exactMatch(reads[eachRead][0])
+                oneMiss = matchesByGenome[eachGenome].oneMismatch(reads[eachRead][0])
+                twoMiss = matchesByGenome[eachGenome].twoMismatch(reads[eachRead][0])
                 occurencesIndex[eachGenome][eachRead] = {'0' : exact, '1': oneMiss, '2' : twoMiss}
                 print str(len(occurencesIndex[eachGenome][eachRead]['0']))
                 print str(len(occurencesIndex[eachGenome][eachRead]['1']))
