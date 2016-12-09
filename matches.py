@@ -121,7 +121,7 @@ class Matches():
 						#misMatchpair = (each, mismatchesP[0], mismatchesP[1])
 						#for k in range(0, len(mismatchesP)):
 						#	misMatchpair[k] = mismatchesP[k]
-						matches.append(each, mismatchesP[0], mismatchesP[1])
+						matches.append((each, mismatchesP[0], mismatchesP[1]))
 
 		for index in second_exact_matches:
 			if (index - len(first)) >= 0 and (index + len(second) + len(first)) < len(self.t):
@@ -140,7 +140,7 @@ class Matches():
 						
 						#for k in range(0, len(mismatchesP)):
 						#	misMatchpair[k] = mismatchesP[k]
-						matches.append(start_for_first, mismatchesP[0], mismatchesP[1])
+						matches.append((start_for_first, mismatchesP[0], mismatchesP[1]))
 
 		for index in third_exact_matches:
 			if (index - len(second) - len(first)) >= 0 and (index + len(third) < len(self.t)):
@@ -158,7 +158,7 @@ class Matches():
 							mismatchesP.append(mismatches2[j] + len(first))
 						#for k in range(0, len(mismatchesP)):
 						#	misMatchpair[k] = mismatchesP[k]
-						matches.append(start_for_first, mismatchesP[0], mismatchesP[1])
+						matches.append((start_for_first, mismatchesP[0], mismatchesP[1]))
 		#print matches
 		return list(set(matches))
 
