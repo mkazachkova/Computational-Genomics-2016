@@ -50,7 +50,7 @@ def main():
 
     genomeSequences = genome_load(genomeList)
 
-    print 'reads:' + str(len(reads))
+    print 'reads:' + reads
     for genome in genomeSequences:
         print genome + ':' + str(len(genomeSequences[genome]))
 
