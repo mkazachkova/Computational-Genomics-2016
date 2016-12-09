@@ -45,8 +45,8 @@ class Matches():
 			for index in second_exact_matches:
 				start = index - len(first)
 				if (start >= 0):
-					#run boyer-more/naive starting at start and matching w/ up to one mismatch for first
-					bool_t, list_t = naive(start,first, 0)
+					#run boyer-more/self.naive starting at start and matching w/ up to one mismatch for first
+					bool_t, list_t = self.naive(start,first, 0)
 					if len(list_t) == 1:
 						misMatchpair = (start,list_t[0]+len(first))
 						matches.append(misMatchpair) #means there is a match or approximate match here; add to list
@@ -55,7 +55,7 @@ class Matches():
 			for index in first_exact_matches:
 				start = index + len(first)
 				if (start + len(second)) <= (len(self.t)-1):
-					bool_t, list_t = naive(start,second, 0)
+					bool_t, list_t = self.naive(start,second, 0)
 					if len(list_t) == 1:
 						misMatchpair = (index,list_t[0])
 						matches.append(misMatchpair)
@@ -77,8 +77,8 @@ class Matches():
 			for index in second_exact_matches:
 				start = index - len(first)
 				if (start >= 0):
-					#run boyer-more/naive starting at start and matching w/ up to one mismatch for first
-					bool_t, list_t = naive(start,first, 1)
+					#run boyer-more/self.naive starting at start and matching w/ up to one mismatch for first
+					bool_t, list_t = self.naive(start,first, 1)
 					if len(list_t) == 1:
 						misMatchpair = (start,list_t[0]+len(first))
 						matches.append(misMatchpair) #means there is a match or approximate match here; add to list
@@ -87,7 +87,7 @@ class Matches():
 			for index in first_exact_matches:
 				start = index + len(first)
 				if (start + len(second)) <= (len(self.t)-1):
-					bool_t, list_t = naive(start,second, 1)
+					bool_t, list_t = self.naive(start,second, 1)
 					if len(list_t) == 1:
 						misMatchpair = (index,list_t[0])
 						matches.append(misMatchpair)
@@ -108,8 +108,8 @@ class Matches():
 			if each + len(p) < len(self.t):
 				start_for_second = each + len(first)
 				start_for_third = start_for_second + len(second)
-				added1, mismatches1 = naive(start_for_second, second, 2)
-				added2, mismatches2 = naive(start_for_third, third, 2)
+				added1, mismatches1 = self.naive(start_for_second, second, 2)
+				added2, mismatches2 = self.naive(start_for_third, third, 2)
 				misMatchpair = ()
 				mismatchesP = []
 				if added1 and added2:
@@ -126,8 +126,8 @@ class Matches():
 			if (index - len(first)) >= 0 and (index + len(second) + len(first)) < len(self.t):
 				start_for_first = index - len(first)
 				start_for_third = index + len(second)
-				added1, mismatches1 = naive(start_for_first, first, 2)
-				added2, mismatches2 = naive(start_for_third, third, 2)
+				added1, mismatches1 = self.naive(start_for_first, first, 2)
+				added2, mismatches2 = self.naive(start_for_third, third, 2)
 				misMatchpair = ()
 				mismatchesP = []
 				if added1 and added2:
@@ -144,8 +144,8 @@ class Matches():
 			if (index - len(second) - len(first)) >= 0 and (index + len(third) < len(self.t)):
 				start_for_first = index - len(second) - len(first)
 				start_for_second = index - len(second)
-				added1, mismatches1 = naive(start_for_first, first, 2)
-				added2, mismatches2 = naive(start_for_second, second, 2)
+				added1, mismatches1 = self.naive(start_for_first, first, 2)
+				added2, mismatches2 = self.naive(start_for_second, second, 2)
 				misMatchpair = ()
 				mismatchesP = []
 				if added1 and added2:
