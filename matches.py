@@ -1,10 +1,7 @@
-import sys
-from fm import FmIndex
+
 import time
 start_time = time.time()
 
-t = ""
-fmB = None
 
 def oneMismatch(p, mismatches_allowed):
 	global t
@@ -107,13 +104,6 @@ def naive(start, compared, num_mismatch_allowed):
 		start+=1
 	return True, mismatches
 
-f = open("test_genome.txt", "r")
-t = f.read()
-fmB = FmIndex(t)
-
-#will be replaced with kevin's parsing later; just for testing purposes now
-a = open("test_pattern_exact.txt", "r")
-p = a.read()
 
 #matches = OneMismatch(p)
 #print matches 
