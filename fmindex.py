@@ -1,179 +1,113 @@
-# -*- coding: utf-8 -*-
-
-import pickle
-#import cPickle as pickle
-import pickle
-import bwt
-
-# burrow wheeler transform
-bw  = bwt.SuffixArrayBurrowsWheeler()
-
-# burrow wheeler inverse
-bwi = bwt.CheckpointingBurrowsWheeler()
-
-
-def save(filename, idx):
-    f = open(filename, 'w')
-    pickle.dump(idx,f)
-
-def load(filename):
-    f = open(filename)
-    idx = pickle.load(f)
-    return idx
-
-def index(data):
-    #return FMSimpleIndex(data)
-    #return FMFullIndex(data)
-    return FMCheckpointing(data)
-
-class FMSimpleIndex(object):   
-    def __init__(self, data):
-        self.data = bw.transform(data)
-        self.offset = {}
-        self._build(data)
-    
-    def _build(self, data):
-        """ build the index """
-        self.occ = bwt.calc_first_occ(self.data)
-    
-    def _occ(self, qc):
-        """ get the first occurance of letter qc in left-column"""
-        c = self.occ.get(qc)
-        if c == None:
-            return 0
-        return c
-    
-    def _count(self, idx, qc):
-        """ count the occurances of letter qc (rank of qc) upto position idx """
-        if not qc in self.occ.keys(): return 0
-        c = 0
-        for i in xrange(idx):
-            if self.data[i] == qc:
-                c += 1
-        return c
-    
-    def _lf(self, idx, qc):
-        """ get the nearset lf mapping for letter qc at position idx """
-        o = self._occ(qc)
-        c = self._count(idx, qc)
-        return o + c
-    
-    def _walk(self, idx):
-        """ find the offset in position idx of transformed string
-            from the beginning """
+class FmIndex():
+    ''' O(m) size FM Index, where checkpoints and suffix array samples are
+        spaced O(1) elements apart.  Queries like count() and range() are
+        O(n) where n is the length of the query.  Finding all k
+        occurrences of a length-n query string takes O(n + k) time.
         
-        # walk to the beginning using lf mapping
-        # this is same as inverse of burrow wheeler transformation
-        # from arbitrary location
-        r = 0
-        i = idx 
-        while self.data[i] != bw.EOS:
-            if self.offset.get(i):
-                # we have cached the location and can use it
-                r += self.offset[i]
+        Note: The spacings in the suffix array sample and checkpoints can
+        be chosen differently to achieve different bounds. '''
+    
+    @staticmethod
+    def downsampleSuffixArray(sa, n=4):
+        ''' Take only the suffix-array entries for every nth suffix.  Keep
+            suffixes at offsets 0, n, 2n, etc with respect to the text.
+            Return map from the rows to their suffix-array values. '''
+        ssa = {}
+        for i in xrange(0, len(sa)):
+            # We could use i % n instead of sa[i] % n, but we lose the
+            # constant-time guarantee for resolutions
+            if sa[i] % n == 0:
+                ssa[i] = sa[i]
+        return ssa
+    
+    def __init__(self, t, cpIval=4, ssaIval=4):
+        if t[-1] != '$':
+            t += '$' # add dollar if not there already
+        # Get BWT string and offset of $ within it
+        sa = suffixArray(t)
+        self.bwt, self.dollarRow = bwtFromSa(t, sa)
+        # Get downsampled suffix array, taking every 1 out of 'ssaIval'
+        # elements w/r/t T
+        self.ssa = self.downsampleSuffixArray(sa, ssaIval)
+        self.slen = len(self.bwt)
+        # Make rank checkpoints
+        self.cps = FmCheckpoints(self.bwt, cpIval)
+        # Calculate # occurrences of each character
+        tots = dict()
+        for c in self.bwt:
+            tots[c] = tots.get(c, 0) + 1
+        # Calculate concise representation of first column
+        self.first = {}
+        totc = 0
+        for c, count in sorted(tots.iteritems()):
+            self.first[c] = totc
+            totc += count
+    
+    def count(self, c):
+        ''' Return number of occurrences of characters < c '''
+        if c not in self.first:
+            # (Unusual) case where c does not occur in text
+            for cc in sorted(self.first.iterkeys()):
+                if c < cc: return self.first[cc]
+            return self.first[cc]
+        else:
+            return self.first[c]
+    
+    def range(self, p):
+        ''' Return range of BWM rows having p as a prefix '''
+        l, r = 0, self.slen - 1 # closed (inclusive) interval
+        for i in xrange(len(p)-1, -1, -1): # from right to left
+            l = self.cps.rank(self.bwt, p[i], l-1) + self.count(p[i])
+            r = self.cps.rank(self.bwt, p[i], r)   + self.count(p[i]) - 1
+            if r < l:
                 break
-            r += 1
-            i = self._lf(i, self.data[i])
-        
-        # save the offset of some idx for faster searches
-        if not self.offset.get(idx):
-            self.offset[i] = r
-        return r
+        return l, r+1
     
-    def bounds(self, q):
-        """ find the first and last suffix positions for query q """
-        top = 0
-        bot = len(self.data)
-        for i, qc in enumerate(q[::-1]):
-            top = self._lf(top, qc)
-            bot = self._lf(bot, qc)
-            if top == bot: return (-1,-1)
-        return (top,bot)
+    def resolve(self, row):
+        ''' Given BWM row, return its offset w/r/t T '''
+        def stepLeft(row):
+            ''' Step left according to character in given BWT row '''
+            c = self.bwt[row]
+            return self.cps.rank(self.bwt, c, row-1) + self.count(c)
+        nsteps = 0
+        while row not in self.ssa:
+            row = stepLeft(row)
+            nsteps += 1
+        return self.ssa[row] + nsteps
     
-    def search(self, q):
-        """ search the positions of query q """
-        
-        # find the suffixes for the query
-        top, bot = self.bounds(q)
-        matches = []
-        # find the location of the suffixes
-        # by walking the reverse text from that position
-        # with lf mapping
-        for i in range(top, bot):
-            pos = self._walk(i)
-            matches.append(pos)
-        return sorted(matches)
+    def hasSubstring(self, p):
+        ''' Return true if and only if p is substring of indexed text '''
+        l, r = self.range(p)
+        return r > l
     
-    def count(self, q):
-        """ count occurances of q in the index """
-        top, bot = self.bounds(q)
-        return bot - top
+    def hasSuffix(self, p):
+        ''' Return true if and only if p is suffix of indexed text '''
+        l, r = self.range(p)
+        off = self.resolve(l)
+        return r > l and off + len(p) == self.slen-1
     
-    def getOriginal(self):
-        return bwi.inverse(self.data)
-    
-    def RLE(self):
-        output = []
-        last = ''
-        k = 0
-        for i in range(len(self.data)):
-            ch = self.data[i]
-            if ch == last:
-                k += 1
-            else:
-                if k > 0:
-                    output.append((last, k))
-                last = ch
-                k = 1
-        output.append((last, k))
-        return output
+    def occurrences(self, p):
+        ''' Return offsets for all occurrences of p, in no particular order '''
+        l, r = self.range(p)
+        return [ self.resolve(x) for x in xrange(l, r) ]
 
-class FMFullIndex(FMSimpleIndex):
-    """ creates full LF index for each letter, space inefficient """
-    
-    def __init__(self, data):
-        self.data = bw.transform(data)
-        self.offset = {}
-        self._build()
-    
-    def _build(self):
-        """ build the index """
-        occ = bwt.calc_first_occ(self.data)
-        
-        # FM Index
-        FM = {}
-        for i, c in enumerate(self.data):
-            # we'll store the nearest LF mapping for each letter
-            # space inefficient
-            for x, v in occ.items():
-                FM[(i,x)] = v
-            occ[c] += 1
-        i = len(self.data)
-        for x, v in occ.items():
-            FM[(i,x)] = v
-        del occ
-        
-        self.FM = FM
-    
-    def _lf(self, idx, qc):
-        return self.FM[(idx,qc)]
-    
-class FMCheckpointing(FMSimpleIndex):
-    """ creates LF index with checkpoints """
-    
-    def __init__(self, data, step = 50):
-        self.data = bw.transform(data)
-        self.offset = {}
-        self.step = step
-        self._build()
-    
-    def _build(self):
-        """ build the index """
-        self.occ = bwt.calc_first_occ(self.data)
-        self.C = bwt.calc_checkpoints(self.data, self.step)
-    
-    def _count(self, idx, qc):
-        """ count the occurances of letter qc (rank of qc) upto position idx """
-        count = bwt.count_letter_with_checkpoints(self.C, self.step, self.data, idx, qc)
-        return count
+    def suffixArray(s):
+        ''' Given T return suffix array SA(T).  Uses "sorted"
+            function for simplicity, which is probably very slow. '''
+        satups = sorted([(s[i:], i) for i in xrange(0, len(s))])
+        return map(lambda x: x[1], satups) # extract, return just offsets
+
+    def bwtFromSa(t, sa=None):
+        ''' Given T, returns BWT(T) by way of the suffix array. '''
+        bw = []
+        dollarRow = None
+        if sa is None:
+            sa = suffixArray(t)
+        for si in sa:
+            if si == 0:
+                dollarRow = len(bw)
+                bw.append('$')
+            else:
+                bw.append(t[si-1])
+        return (''.join(bw), dollarRow) # return string-ized version of list bw
     
