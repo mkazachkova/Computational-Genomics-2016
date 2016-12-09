@@ -19,6 +19,8 @@ class Matches():
 		location = start
 		mismatchInd = []
 		for i in range(len(compared)):
+			print len(self.t)
+			print str(start)
 			if self.t[start] != compared[i]:
 				mismatches+=1
 				mismatchInd.append(i)
