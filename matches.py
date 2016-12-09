@@ -20,17 +20,17 @@ def oneMismatch(p, mismatches_allowed):
 		for index in second_exact_matches:
 			start = index - len(first)
 			if (start >= 0):
-				#run boyer-more/naive starting at start and matching w/ up to one mismatch for first 
-				bool_t, list_t = naive(start,first, mismatches_allowed)	
+				#run boyer-more/naive starting at start and matching w/ up to one mismatch for first
+				bool_t, list_t = naive(start,first, mismatches_allowed)
 				if bool_t:
 					matches.append(start) #means there is a match or approximate match here; add to list
 
 	if first_exact_matches != None:
 		for index in first_exact_matches:
-			start = index + len(first) 
+			start = index + len(first)
 			if (start + len(second)) <= (len(t)-1):
 				bool_t, list_t = naive(start,second, mismatches_allowed)
-				if bool_t:
+				if list_t == 1:
 					matches.append(index)
 	print matches
 	return list(set(matches))
@@ -64,7 +64,7 @@ def twoMismatch(p, mismatches_allowed):
 			added1, mismatches1 = naive(start_for_second, second, mismatches_allowed)
 			added2, mismatches2 = naive(start_for_third, third, mismatches_allowed)
 			if added1 and added2:
-				if mismatches1 + mismatches2 < 3:
+				if mismatches1 + mismatches2 == 2:
 					matches.append(each)
 
 	for index in second_exact_matches:
@@ -74,7 +74,7 @@ def twoMismatch(p, mismatches_allowed):
 			added1, mismatches1 = naive(start_for_first, first, mismatches_allowed)
 			added2, mismatches2 = naive(start_for_third, third, mismatches_allowed)
 			if added1 and added2:
-				if mismatches1 + mismatches2 < 3:
+				if mismatches1 + mismatches2 == 2:
 					matches.append(start_for_first)
 
 	for index in third_exact_matches:
@@ -84,15 +84,15 @@ def twoMismatch(p, mismatches_allowed):
 			added1, mismatches1 = naive(start_for_first, first, mismatches_allowed)
 			added2, mismatches2 = naive(start_for_second, second, mismatches_allowed)
 			if added1 and added2:
-				if mismatches1 + mismatches2 < 3:
+				if mismatches1 + mismatches2 == 2:
 					matches.append(start_for_first)
 
 
 	#print matches
 	return list(set(matches))
 
-def naive(start, compared, num_mismatch_allowed): 
-	"""can be changed to boyer more (code available from piazza), but was thinking that since we 
+def naive(start, compared, num_mismatch_allowed):
+	"""can be changed to boyer more (code available from piazza), but was thinking that since we
 	run through so many p's might not be worth it to preprocess? could also do both and see if one is faster?"""
 	mismatches = 0
 	location = start
@@ -106,8 +106,7 @@ def naive(start, compared, num_mismatch_allowed):
 
 
 #matches = OneMismatch(p)
-#print matches 
-
+#print matches
 
 listT = twoMismatch(p, 2)
 
