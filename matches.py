@@ -96,13 +96,15 @@ def naive(start, compared, num_mismatch_allowed):
 	run through so many p's might not be worth it to preprocess? could also do both and see if one is faster?"""
 	mismatches = 0
 	location = start
+	mismatchInd = []
 	for i in range(len(compared)):
 		if t[start] != compared[i]:
 			mismatches+=1
 		if mismatches > num_mismatch_allowed:  #1
 			return False, mismatches
+		mismatchInd.append(i)
 		start+=1
-	return True, mismatches
+	return True, mismatchInd
 
 
 #matches = OneMismatch(p)
