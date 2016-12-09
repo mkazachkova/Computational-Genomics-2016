@@ -60,6 +60,7 @@ def main():
     #load the fm index
     for genomeName in genomeSequences:
         fmB[genomeName] = FmIndex(genomeSequences[genomeName])
+        print 'fmB has:' + len(fmB)
         matchesByGenome[genomeName] = Matches(fmB[genomeName], genomeSequences[genomeName])
     print 'before eachGenome in fmB'
     for eachGenome in fmB:
