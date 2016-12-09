@@ -11,6 +11,24 @@ class Matches():
 		self.fmB = fmB
 		self.t = t 
 
+
+	def naive(start, compared, num_mismatch_allowed):
+		"""can be changed to boyer more (code available from piazza), but was thinking that since we
+		run through so many p's might not be worth it to preprocess? could also do both and see if one is faster?"""
+		mismatches = 0
+		location = start
+		mismatchInd = []
+		for i in range(len(compared)):
+			if self.t[start] != compared[i]:
+				mismatches+=1
+				mismatchInd.append(i)
+			if mismatches > num_mismatch_allowed:  #1
+				del mismatchInd[len(mismatchInd)]
+				return False, mismatches
+			start+=1
+		return True, mismatchInd
+
+
 	def exactMatch(self, p):
 
 		#occurrs = self.self.fmB.occurrences(p)
@@ -141,23 +159,6 @@ class Matches():
 						matches.append(misMatchpair)
 		#print matches
 		return list(set(matches))
-
-	def naive(start, compared, num_mismatch_allowed):
-		"""can be changed to boyer more (code available from piazza), but was thinking that since we
-		run through so many p's might not be worth it to preprocess? could also do both and see if one is faster?"""
-		mismatches = 0
-		location = start
-		mismatchInd = []
-		for i in range(len(compared)):
-			if self.t[start] != compared[i]:
-				mismatches+=1
-				mismatchInd.append(i)
-			if mismatches > num_mismatch_allowed:  #1
-				del mismatchInd[len(mismatchInd)]
-				return False, mismatches
-			start+=1
-		return True, mismatchInd
-
 
 #matches = OneMismatch(p)
 #print matches
