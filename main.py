@@ -40,7 +40,7 @@ def main():
     reads = {}
     if len(sys.argv) > 1:
         f = open(sys.argv[1])
-        reads = parse_fasta(f.readlines())
+        reads = parse_fastq(f.readlines())
         f.close()        
 
         for i in range(2, len(sys.argv)):
