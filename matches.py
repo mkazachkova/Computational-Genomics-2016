@@ -12,7 +12,7 @@ class Matches():
 		self.t = t 
 
 
-	def naive(start, compared, num_mismatch_allowed):
+	def naive(self, start, compared, num_mismatch_allowed):
 		"""can be changed to boyer more (code available from piazza), but was thinking that since we
 		run through so many p's might not be worth it to preprocess? could also do both and see if one is faster?"""
 		mismatches = 0
