@@ -61,10 +61,10 @@ def main():
     for eachGenome in fmB:
             occurencesIndex[eachGenome] = {}
             for eachRead in reads:
-                exactOccurences = matches.twoMismatch(reads[eachRead], 2)
-                exactOccurences = matches.twoMismatch(reads[eachRead], 2)
-                exactOccurences = matches.twoMismatch(reads[eachRead], 2)
-                occurencesIndex[eachGenome][eachRead] = occurences
+                exact = matches.exactMatch(reads[eachRead], 0)
+                oneMiss = matches.oneMismatch(reads[eachRead], 1)
+                twoMiss = matches.twoMismatch(reads[eachRead], 2)
+                occurencesIndex[eachGenome][eachRead] = {0 : exact, 1 : oneMiss, 2 : twoMiss}
 
     #now occurencesIndex contains a list of all occurrences of a read, in each contaminant genome
 
