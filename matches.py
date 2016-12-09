@@ -110,7 +110,7 @@ class Matches():
 				start_for_third = start_for_second + len(second)
 				added1, mismatches1 = self.naive(start_for_second, second, 2)
 				added2, mismatches2 = self.naive(start_for_third, third, 2)
-				misMatchpair = ()
+				#misMatchpair = ()
 				mismatchesP = []
 				if added1 and added2:
 					if len(mismatches1) + len(mismatches2) == 2:
@@ -118,9 +118,10 @@ class Matches():
 							mismatchesP.append(mismatches1[i] + len(first))
 						for j in range(0, len(mismatches2)):
 							mismatchesP.append(mismatches2[j] + len(first) + len(second))
-						for k in range(0, len(mismatchesP)):
-							misMatchpair[k] = mismatchesP[k]
-						matches.append(misMatchpair)
+						#misMatchpair = (each, mismatchesP[0], mismatchesP[1])
+						#for k in range(0, len(mismatchesP)):
+						#	misMatchpair[k] = mismatchesP[k]
+						matches.append(each, mismatchesP[0], mismatchesP[1])
 
 		for index in second_exact_matches:
 			if (index - len(first)) >= 0 and (index + len(second) + len(first)) < len(self.t):
@@ -128,7 +129,7 @@ class Matches():
 				start_for_third = index + len(second)
 				added1, mismatches1 = self.naive(start_for_first, first, 2)
 				added2, mismatches2 = self.naive(start_for_third, third, 2)
-				misMatchpair = ()
+				#misMatchpair = ()
 				mismatchesP = []
 				if added1 and added2:
 					if len(mismatches1) + len(mismatches2) == 2:
@@ -136,9 +137,10 @@ class Matches():
 							mismatchesP.append(mismatches1[i])
 						for j in range(0, len(mismatches2)):
 							mismatchesP.append(mismatches2[j] + len(first) + len(second))
-						for k in range(0, len(mismatchesP)):
-							misMatchpair[k] = mismatchesP[k]
-						matches.append(misMatchpair)
+						
+						#for k in range(0, len(mismatchesP)):
+						#	misMatchpair[k] = mismatchesP[k]
+						matches.append(start_for_first, mismatchesP[0], mismatchesP[1])
 
 		for index in third_exact_matches:
 			if (index - len(second) - len(first)) >= 0 and (index + len(third) < len(self.t)):
@@ -146,7 +148,7 @@ class Matches():
 				start_for_second = index - len(second)
 				added1, mismatches1 = self.naive(start_for_first, first, 2)
 				added2, mismatches2 = self.naive(start_for_second, second, 2)
-				misMatchpair = ()
+				#misMatchpair = ()
 				mismatchesP = []
 				if added1 and added2:
 					if len(mismatches1) + len(mismatches2) == 2:
@@ -154,9 +156,9 @@ class Matches():
 							mismatchesP.append(mismatches1[i])
 						for j in range(0, len(mismatches2)):
 							mismatchesP.append(mismatches2[j] + len(first))
-						for k in range(0, len(mismatchesP)):
-							misMatchpair[k] = mismatchesP[k]
-						matches.append(misMatchpair)
+						#for k in range(0, len(mismatchesP)):
+						#	misMatchpair[k] = mismatchesP[k]
+						matches.append(start_for_first, mismatchesP[0], mismatchesP[1])
 		#print matches
 		return list(set(matches))
 
