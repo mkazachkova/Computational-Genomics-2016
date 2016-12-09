@@ -117,7 +117,7 @@ class Matches():
 						for i in range(0, len(mismatches1)):
 							mismatchesP.append(mismatches1[i] + len(first))
 						for j in range(0, len(mismatches2)):
-							mismatchesP.append(mismatches2[i] + len(first) + len(second))
+							mismatchesP.append(mismatches2[j] + len(first) + len(second))
 						for k in range(0, len(mismatchesP)):
 							misMatchpair[k] = mismatchesP[k]
 						matches.append(misMatchpair)
@@ -135,7 +135,7 @@ class Matches():
 						for i in range(0, len(mismatches1)):
 							mismatchesP.append(mismatches1[i])
 						for j in range(0, len(mismatches2)):
-							mismatchesP.append(mismatches2[i] + len(first) + len(second))
+							mismatchesP.append(mismatches2[j] + len(first) + len(second))
 						for k in range(0, len(mismatchesP)):
 							misMatchpair[k] = mismatchesP[k]
 						matches.append(misMatchpair)
@@ -153,7 +153,7 @@ class Matches():
 						for i in range(0, len(mismatches1)):
 							mismatchesP.append(mismatches1[i])
 						for j in range(0, len(mismatches2)):
-							mismatchesP.append(mismatches2[i] + len(first))
+							mismatchesP.append(mismatches2[j] + len(first))
 						for k in range(0, len(mismatchesP)):
 							misMatchpair[k] = mismatchesP[k]
 						matches.append(misMatchpair)
