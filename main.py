@@ -69,6 +69,7 @@ def main():
                 oneMiss = matchesByGenome[eachGenome].oneMismatch(reads[eachRead])
                 twoMiss = matchesByGenome[eachGenome].twoMismatch(reads[eachRead])
                 occurencesIndex[eachGenome][eachRead] = {0 : exact, 1 : oneMiss, 2 : twoMiss}
+                print str(len(occurencesIndex))
 
     #now occurencesIndex contains a list of all occurrences of a read, in each contaminant genome
 
