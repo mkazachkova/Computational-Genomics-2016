@@ -56,12 +56,12 @@ def main():
         print 'Please choose a contaminant'
 
     genomeSequences = genome_load(genomeList)
-
+    print 'before loading fm index'
     #load the fm index
     for genomeName in genomeSequences:
         fmB[genomeName] = FmIndex(genomeSequences[genomeName])
         matchesByGenome[genomeName] = Matches(fmB[genomeName], genomeSequences[genomeName])
-
+    print 'before eachGenome in fmB'
     for eachGenome in fmB:
             occurencesIndex[eachGenome] = {}
             for eachRead in reads:
