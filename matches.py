@@ -19,15 +19,14 @@ class Matches():
 		location = start
 		mismatchInd = []
 		for i in range(len(compared)):
-			print len(self.t)
-			print str(start)
-			if self.t[start] != compared[i]:
-				mismatches+=1
-				mismatchInd.append(i)
-			if mismatches > num_mismatch_allowed:  #1
-				del mismatchInd[len(mismatchInd)]
-				return False, mismatches
-			start+=1
+			if start < len(self.t):
+				if self.t[start] != compared[i]:
+					mismatches+=1
+					mismatchInd.append(i)
+				if mismatches > num_mismatch_allowed:  #1
+					del mismatchInd[len(mismatchInd)]
+					return False, mismatches
+				start+=1
 		return True, mismatchInd
 
 
