@@ -1,5 +1,6 @@
 import sys
 from fm import FmIndex
+from matches import Matches
 
 def parse_fastq(fh):
     # turn fastq into a dictionary of tuples
@@ -40,6 +41,8 @@ def main():
     genomeList = []
     reads = {}
     fmB = {}
+    matchesByGenome = {}
+
     occurencesIndex = {}
 
     if len(sys.argv) > 1:
@@ -57,19 +60,19 @@ def main():
     #load the fm index
     for genomeName in genomeSequences:
         fmB[genomeName] = FmIndex(genomeSequences[genomeName])
+        matchesByGenome[genomeName] = Matches(fmB[genomeName], genomeSequences[genomeName])
 
     for eachGenome in fmB:
             occurencesIndex[eachGenome] = {}
             for eachRead in reads:
-                exact = matches.exactMatch(reads[eachRead], 0)
-                oneMiss = matches.oneMismatch(reads[eachRead], 1)
-                twoMiss = matches.twoMismatch(reads[eachRead], 2)
+                exact = matchesByGenome[eachGenome].exactMatch(reads[eachRead], 0)
+                oneMiss = matchesByGenome[eachGenome].oneMismatch(reads[eachRead], 1)
+                twoMiss = matchesByGenome[eachGenome].twoMismatch(reads[eachRead], 2)
                 occurencesIndex[eachGenome][eachRead] = {0 : exact, 1 : oneMiss, 2 : twoMiss}
 
     #now occurencesIndex contains a list of all occurrences of a read, in each contaminant genome
 
 
-    
 
 
 if __name__ == "__main__":
