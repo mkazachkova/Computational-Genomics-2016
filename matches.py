@@ -31,7 +31,7 @@ class Matches():
 
 
 	def exactMatch(self, p):
-
+		print 'exact'
 		#occurrs = self.self.fmB.occurrences(p)
 
 		second = p[len(p)/2:]
@@ -63,7 +63,7 @@ class Matches():
 		return list(set(matches))
 
 	def oneMismatch(self, p):
-
+		print 'one'
 		#occurrs = self.self.fmB.occurrences(p)
 
 		second = p[len(p)/2:]
@@ -95,6 +95,7 @@ class Matches():
 		return list(set(matches))
 
 	def twoMismatch(self,p):
+		print 'two'
 		matches = []
 
 		third = p[len(p)/3 + len(p)/3 :]
