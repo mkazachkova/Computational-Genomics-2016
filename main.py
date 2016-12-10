@@ -60,7 +60,7 @@ def writeFiles(occurrencesIndex, reads):
             for oneMissTuple in occurrencesIndex[genomeName][eachRead]['1']:
                 bed.write(eachRead + '\t' + str(oneMissTuple[0]) + str(oneMissTuple[1] + readlen) + '1')
                 phred.write(str(oneMissTuple[1]))
-            for twoMissTuple in occurencesIndex[genomeName][eachRead]['2']:
+            for twoMissTuple in occurrencesIndex[genomeName][eachRead]['2']:
                 bed.write(eachRead + '\t' + str(twoMissTuple[0]) + str(twoMissTuple[0] + readlen) + '2')
                 phred.write(str(twoMissTuple[1]))
                 phred.write(str(twoMissTuple[2]))
