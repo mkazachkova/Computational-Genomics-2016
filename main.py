@@ -13,7 +13,6 @@ def parse_fastq(fh):
     for ln in fh:
         if lc == 1:
             seqid = ln[1:].split()[0]
-            fa[seqid] = ('', '')
         elif lc == 2:
             seq = ln.strip().upper()
         elif lc == 4:
