@@ -53,7 +53,7 @@ def writeFiles(occurrencesIndex, reads):
 
         for eachRead in reads:
             readlen = len(reads[eachRead][0])
-            phred = reads[eachRead[1]]
+            phred = reads[eachRead][1]
 
             for exactLocation in occurrencesIndex[genomeName][eachRead]['0']:
                 bed.write(eachRead + '\t' + str(exactLocation) + str(exactLocation + readlen) + '0')
