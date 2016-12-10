@@ -39,7 +39,7 @@ def genome_load(genomeList):
         genomeSequences[genomeName] = temp
     return genomeSequences
 
-def writeFiles(occurencesIndex):
+def writeFiles(occurrencesIndex):
     for genomeName in occurrencesIndex:
         filename = sys.argv[1]
         f = open(filename[0:filename.find('.')] + '.csv', 'wt')
