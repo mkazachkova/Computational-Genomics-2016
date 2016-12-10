@@ -3,7 +3,9 @@ start = []
 end = []
 mismatches = []
 phreds = []
-
+phredplot = []
+for i in range(0, 50):
+	phredplot.append(0)
 
 
 def read_bed(fh):
@@ -19,7 +21,10 @@ def read_phred(fh):
 		phreds.append(ord(line.strip()) - 33)
 	phreds.sort()
 
-	print phreds
+	for score in phreds:
+		phredplot[score] += 1
+
+	print phredplot
 
 
 def compare_phred():
