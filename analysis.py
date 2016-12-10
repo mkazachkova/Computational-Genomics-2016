@@ -3,10 +3,29 @@ start = []
 end = []
 mismatches = []
 phreds = []
-phredplot = []
-for i in range(0, 50):
-	phredplot.append(0)
 
+
+def parse_fastq(fh):
+    # turn fastq into a dictionary of tuples
+    fa = {}
+    lc = 1
+    seqid = ''
+    seq = ''
+    phred = ''
+
+    for ln in fh:
+        if lc == 1:
+            seqid = ln[1:].split()[0]
+        elif lc == 2:
+            seq = ln.strip().upper()
+        elif lc == 4:
+            phred = ln.strip()
+            if len(seq) > 4:
+                fa[seqid] = (seq, phred)
+            lc = 0
+        lc += 1
+
+    return fa
 
 def read_bed(fh):
 	for line in fh:
@@ -21,14 +40,31 @@ def read_phred(fh):
 		phreds.append(ord(line.strip()) - 33)
 	phreds.sort()
 
+	phredplot = []
+	for i in range(0, 50):
+		phredplot.append(0)
+
 	for score in phreds:
 		phredplot[score] += 1
 
-	print phredplot
+	return phredplot
 
 
 def compare_phred():
-	print 'h'
+	f = open('RealReads3.fq')
+	reads = parse_fastq(f.readlines())
+	f.close()
+	averagephreds = []
+
+	for read in reads:
+		tempPhred = reads[read][1]
+		avgphred = 0
+		for i in range(0, len(tempPhred)):
+			avgphred += (ord(tempPhred[i]) - 33)
+		averagephreds.append(avgphred / len(tempPhred))
+
+	print averagephreds.sort()
+
 
 def main():
 	f = open('RealReads3.bed')
@@ -40,5 +76,7 @@ def main():
 	gh = g.readlines()
 	read_phred(gh)
 	g.close()
+
+	compare_phred()
 
 main()
