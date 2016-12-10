@@ -23,6 +23,7 @@ def read_phred(fh):
 
 
 def compare_phred():
+	print 'h'
 
 def main():
 	f = open('RealReads3.bed')
@@ -34,3 +35,5 @@ def main():
 	gh = g.readlines()
 	read_phred(gh)
 	g.close()
+
+main()
