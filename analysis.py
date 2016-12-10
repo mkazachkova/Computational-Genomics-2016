@@ -1,3 +1,5 @@
+import csv
+
 readID = []
 start = []
 end = []
@@ -50,7 +52,7 @@ def read_phred(fh):
 	return phredplot
 
 
-def compare_phred():
+def average_phred():
 	f = open('RealReads3.fq')
 	reads = parse_fastq(f.readlines())
 	f.close()
@@ -61,12 +63,24 @@ def compare_phred():
 		avgphred = 0
 		for i in range(0, len(tempPhred)):
 			avgphred += (ord(tempPhred[i]) - 33)
+
 		averagephreds.append(avgphred / len(tempPhred))
+	averagephreds.sort()
+    
+        avgphredplot = []
+        for i in range(0, 50):
+            avgphredplot.append(0)
 
-	print averagephreds.sort()
+        for score in averagephreds:
+            avgphredplot[score] += 1
 
+        return avgphredplot
 
 def main():
+        csvfile = open('RealReads3.csv', 'wt')
+        writer = csv.writer(csvfile)
+
+
 	f = open('RealReads3.bed')
 	fh = f.readlines()
 	read_bed(fh)
@@ -74,9 +88,13 @@ def main():
 
 	g = open('RealReads3.txt')
 	gh = g.readlines()
-	read_phred(gh)
+	phredplot = read_phred(gh)
 	g.close()
 
-	compare_phred()
+	averagephredplot = average_phred()
+
+        writer.writerow(phredplot)
+        writer.writerow(averagephredplot)
+        csvfile.close()
 
 main()
