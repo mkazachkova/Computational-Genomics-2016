@@ -1,4 +1,6 @@
 import sys
+import csv
+
 from fm import FmIndex
 from matches import Matches
 
@@ -43,7 +45,7 @@ def main():
     fmB = {}
     matchesByGenome = {}
 
-    occurencesIndex = {}
+    occurrencesIndex = {}
 
     if len(sys.argv) > 1:
         f = open(sys.argv[1])
@@ -53,29 +55,52 @@ def main():
         for i in range(2, len(sys.argv)):
             genomeList.append(sys.argv[i])
     else:
-        print 'Please choose a contaminant'
 
     genomeSequences = genome_load(genomeList)
-    print 'before loading fm index'
+
     #load the fm index
     for genomeName in genomeSequences:
         fmB[genomeName] = FmIndex(genomeSequences[genomeName])
         matchesByGenome[genomeName] = Matches(fmB[genomeName], genomeSequences[genomeName])
-    print 'before eachGenome in fmB'
+
+
     for eachGenome in fmB:
-            occurencesIndex[eachGenome] = {}
+            occurrencesIndex[eachGenome] = {}
             for eachRead in reads:
-                print reads[eachRead][0]
                 exact = matchesByGenome[eachGenome].exactMatch(reads[eachRead][0])
                 oneMiss = matchesByGenome[eachGenome].oneMismatch(reads[eachRead][0])
                 twoMiss = matchesByGenome[eachGenome].twoMismatch(reads[eachRead][0])
-                occurencesIndex[eachGenome][eachRead] = {'0' : exact, '1': oneMiss, '2' : twoMiss}
-                print str(len(occurencesIndex[eachGenome][eachRead]['0']))
-                print str(len(occurencesIndex[eachGenome][eachRead]['1']))
-                print str(len(occurencesIndex[eachGenome][eachRead]['2']))
+                occurrencesIndex[eachGenome][eachRead] = {'0' : exact, '1': oneMiss, '2' : twoMiss}
+                
+    for genomeName in occurrencesIndex:
+        filename = sys.argv[1]
+        f = open(filename[0:filename.find('.')] + '.csv', 'wt')
+        bed = open(filename[0:filename.find('.')] + '.bed', 'w')
 
-                print '----------'
-    #now occurencesIndex contains a list of all occurrences of a read, in each contaminant genome
+        writer = csv.writer(f)
+        exactrow = []
+        oneMissStart = []
+        twoMissStart = []
+        phreds = []
+
+        for eachRead in reads:
+            readlen = len(reads[eachRead[0]])
+            phred = reads[eachRead[1]]
+
+            for exactLocation in occurrencesIndex[genomeName][eachRead]['0']:
+                bed.write(eachRead + '\t' + str(exactLocation) + str(exactLocation + readlen) + '0')
+            for oneMissTuple in occurrencesIndex[genomeName][eachRead]['1']:
+                bed.write(eachRead + '\t' + str(oneMissTuple[0]) + str(oneMissTuple[1] + readlen) + '1')
+                phred.write(str(oneMissTuple[1]))
+            for twoMissTuple in occurencesIndex[genomeName][eachRead]['2']:
+                bed.write(eachRead + '\t' + str(twoMissTuple[0]) + str(twoMissTuple[0] + readlen) + '2')
+                phred.write(str(twoMissTuple[1]))
+                phred.write(str(twoMissTuple[2]))
+
+        f.close()
+        bed.close()
+
+    #now occurrencesIndex contains a list of all occurrences of a read, in each contaminant genome
 
 
 
