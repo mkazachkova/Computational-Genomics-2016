@@ -78,7 +78,7 @@ def average_phred():
         return avgphredplot
 
 def get_unique_hits():
-	print 'Unique Hits: ' + len(set(readID))
+	print 'Unique Hits: ' + str(len(set(readID)))
 
 def main():
 	csvfile = open('RealReads3.csv', 'wt')
