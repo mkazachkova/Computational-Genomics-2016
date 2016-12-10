@@ -39,7 +39,7 @@ def genome_load(genomeList):
         genomeSequences[genomeName] = temp
     return genomeSequences
 
-def writeFiles(occurrencesIndex):
+def writeFiles(occurrencesIndex, reads):
     for genomeName in occurrencesIndex:
         filename = sys.argv[1]
         f = open(filename[0:filename.find('.')] + '.csv', 'wt')
@@ -101,7 +101,7 @@ def main():
                 twoMiss = matchesByGenome[eachGenome].twoMismatch(reads[eachRead][0])
                 occurrencesIndex[eachGenome][eachRead] = {'0' : exact, '1': oneMiss, '2' : twoMiss}
                 
-    writeFiles(occurrencesIndex)
+    writeFiles(occurrencesIndex, reads)
 
 if __name__ == "__main__":
     main()
