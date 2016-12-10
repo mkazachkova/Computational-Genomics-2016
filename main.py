@@ -18,7 +18,8 @@ def parse_fastq(fh):
             seq = ln.strip().upper()
         elif lc == 4:
             phred = ln.strip()
-            fa[seqid] = (seq, phred)
+            if len(seq) > 4:
+                fa[seqid] = (seq, phred)
             lc = 0
         lc += 1
 
@@ -76,7 +77,6 @@ def main():
 
                 print '----------'
     #now occurencesIndex contains a list of all occurrences of a read, in each contaminant genome
-
 
 
 
