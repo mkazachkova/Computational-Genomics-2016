@@ -40,7 +40,7 @@ def genome_load(genomeList):
 def writeFiles(occurrencesIndex, reads):
     for genomeName in occurrencesIndex:
         filename = sys.argv[1]
-        phredf = open(filename[0:filename.find('.')] + '.csv', 'wt')
+        phredf = open(filename[0:filename.find('.')] + '.txt', 'wt')
         bed = open(filename[0:filename.find('.')] + '.bed', 'w')
 
         exactrow = []
