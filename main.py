@@ -55,7 +55,7 @@ def main():
         for i in range(2, len(sys.argv)):
             genomeList.append(sys.argv[i])
     else:
-
+        print 'Please include contaminant genomes to scan'
     genomeSequences = genome_load(genomeList)
 
     #load the fm index
