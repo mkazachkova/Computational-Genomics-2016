@@ -42,7 +42,7 @@ def genome_load(genomeList):
 def writeFiles(occurrencesIndex, reads):
     for genomeName in occurrencesIndex:
         filename = sys.argv[1]
-        f = open(filename[0:filename.find('.')] + '.csv', 'wt')
+        phredf = open(filename[0:filename.find('.')] + '.csv', 'wt')
         bed = open(filename[0:filename.find('.')] + '.bed', 'w')
 
         writer = csv.writer(f)
@@ -59,13 +59,13 @@ def writeFiles(occurrencesIndex, reads):
                 bed.write(eachRead + '\t' + str(exactLocation) + str(exactLocation + readlen) + '0')
             for oneMissTuple in occurrencesIndex[genomeName][eachRead]['1']:
                 bed.write(eachRead + '\t' + str(oneMissTuple[0]) + str(oneMissTuple[1] + readlen) + '1')
-                phred.write(str(oneMissTuple[1]))
+                phredf.write(str(oneMissTuple[1]))
             for twoMissTuple in occurrencesIndex[genomeName][eachRead]['2']:
                 bed.write(eachRead + '\t' + str(twoMissTuple[0]) + str(twoMissTuple[0] + readlen) + '2')
-                phred.write(str(twoMissTuple[1]))
-                phred.write(str(twoMissTuple[2]))
+                phredf.write(str(twoMissTuple[1]))
+                phredf.write(str(twoMissTuple[2]))
 
-        f.close()
+        phredf.close()
         bed.close()
 
 def main():
