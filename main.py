@@ -1,6 +1,4 @@
 import sys
-import csv
-
 from fm import FmIndex
 from matches import Matches
 
@@ -45,7 +43,6 @@ def writeFiles(occurrencesIndex, reads):
         phredf = open(filename[0:filename.find('.')] + '.csv', 'wt')
         bed = open(filename[0:filename.find('.')] + '.bed', 'w')
 
-        writer = csv.writer(f)
         exactrow = []
         oneMissStart = []
         twoMissStart = []
