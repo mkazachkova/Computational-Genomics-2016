@@ -1,4 +1,5 @@
 import csv
+from sets import Set 
 
 readID = []
 start = []
@@ -76,9 +77,12 @@ def average_phred():
 
         return avgphredplot
 
+def get_unique_hits():
+	print 'Unique Hits: ' + len(set(readID))
+
 def main():
-        csvfile = open('RealReads3.csv', 'wt')
-        writer = csv.writer(csvfile)
+    csvfile = open('RealReads3.csv', 'wt')
+    writer = csv.writer(csvfile)
 
 
 	f = open('RealReads3.bed')
@@ -93,8 +97,11 @@ def main():
 
 	averagephredplot = average_phred()
 
-        writer.writerow(phredplot)
-        writer.writerow(averagephredplot)
-        csvfile.close()
+    writer.writerow(phredplot)
+    writer.writerow(averagephredplot)
+    csvfile.close()
+
+    get_unique_hits()
+    
 
 main()
