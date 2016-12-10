@@ -53,14 +53,14 @@ def writeFiles(occurrencesIndex, reads):
             phred = reads[eachRead][1]
 
             for exactLocation in occurrencesIndex[genomeName][eachRead]['0']:
-                bed.write(eachRead + '\t' + str(exactLocation) + str(exactLocation + readlen) + '0')
+                bed.write(eachRead + '\t' + str(exactLocation) + str(exactLocation + readlen) + '0\n')
             for oneMissTuple in occurrencesIndex[genomeName][eachRead]['1']:
-                bed.write(eachRead + '\t' + str(oneMissTuple[0]) + str(oneMissTuple[1] + readlen) + '1')
-                phredf.write(str(oneMissTuple[1]))
+                bed.write(eachRead + '\t' + str(oneMissTuple[0]) + str(oneMissTuple[1] + readlen) + '1\n')
+                phredf.write(str(oneMissTuple[1]) + '\n')
             for twoMissTuple in occurrencesIndex[genomeName][eachRead]['2']:
-                bed.write(eachRead + '\t' + str(twoMissTuple[0]) + str(twoMissTuple[0] + readlen) + '2')
-                phredf.write(str(twoMissTuple[1]))
-                phredf.write(str(twoMissTuple[2]))
+                bed.write(eachRead + '\t' + str(twoMissTuple[0]) + str(twoMissTuple[0] + readlen) + '2\n')
+                phredf.write(str(twoMissTuple[1]) + '\n')
+                phredf.write(str(twoMissTuple[2]) + '\n')
 
         phredf.close()
         bed.close()
