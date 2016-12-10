@@ -43,11 +43,6 @@ def writeFiles(occurrencesIndex, reads):
         phredf = open(filename[0:filename.find('.')] + '.txt', 'wt')
         bed = open(filename[0:filename.find('.')] + '.bed', 'w')
 
-        exactrow = []
-        oneMissStart = []
-        twoMissStart = []
-        phreds = []
-
         for eachRead in reads:
             readlen = len(reads[eachRead][0])
             phred = reads[eachRead][1]
